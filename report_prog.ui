@@ -14,16 +14,6 @@
    <string>Autoclave Report Promintellect 2022</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>30</y>
-      <width>561</width>
-      <height>331</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QTableView" name="tableView">
     <property name="geometry">
      <rect>
@@ -83,6 +73,16 @@
      </rect>
     </property>
    </widget>
+   <widget class="QWidget" name="widget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>40</y>
+      <width>561</width>
+      <height>321</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -90,7 +90,7 @@
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

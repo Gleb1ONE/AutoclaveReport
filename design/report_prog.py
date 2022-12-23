@@ -35,6 +35,9 @@ class Ui_MainWindow(object):
         self.widget = QtWidgets.QWidget(self.centralwidget)
         self.widget.setGeometry(QtCore.QRect(20, 40, 561, 321))
         self.widget.setObjectName("widget")
+        self.comboBox_2 = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox_2.setGeometry(QtCore.QRect(600, 110, 161, 31))
+        self.comboBox_2.setObjectName("comboBox_2")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 799, 21))
@@ -50,6 +53,6 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Autoclave Report Promintellect 2022"))
-        self.pushButton.setText(_translate("MainWindow", "Открыть файл"))
+        self.pushButton.setText(_translate("MainWindow", "Указать папку"))
         self.pushButton_2.setText(_translate("MainWindow", "Сохранить отчет"))
         self.label.setText(_translate("MainWindow", "Отчет цикла №001"))

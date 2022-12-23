@@ -2,6 +2,8 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 from design import report_prog
 import sys
+import csv
+import os
 #---------------------------------------------------------------------------
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -12,33 +14,44 @@ import random
 
 class Window(QtWidgets.QMainWindow):
     def __init__(self):
-        super(Window, self).__init__()
+        super(Window, self).__init__()      # Подключение интерфейса программы
         self.ui = report_prog.Ui_MainWindow()
         self.ui.setupUi(self)
 
         self.ui.pushButton.clicked.connect(self.btnOpen)
         self.ui.pushButton_2.clicked.connect(self.btnSave)
     # ---------------------------------------------------------------------------
-        self.ui.figure = plt.figure()
-        self.ui.canvas = FigureCanvas(self.ui.figure)
-        self.ui.toolbar = NavigationToolbar(self.ui.canvas, self)
-        layout = QVBoxLayout()
-        layout.addWidget(self.ui.toolbar)
+        self.ui.figure = plt.figure()       # Создаем фигуру графика
+        self.ui.canvas = FigureCanvas(self.ui.figure)   # Поле для графика
+        #self.ui.toolbar = NavigationToolbar(self.ui.canvas, self)   # Панель управления графика
+        layout = QVBoxLayout()  # создаем контейнер и добавляем в него поле и тулбар
+        #layout.addWidget(self.ui.toolbar)
         layout.addWidget(self.ui.canvas)
 
-        self.ui.widget.setLayout(layout)
+        self.ui.widget.setLayout(layout)    # добавление контейнера в интерфейс
 
 
-    def btnOpen(self):
-        fname = QFileDialog.getOpenFileName(self, 'Открыть файл', '/home', '*.csv;;')[0]
+    def btnOpen(self):  # Кнопка открыть
+        #fname = QFileDialog.getOpenFileName(self, 'Открыть файл', '/home', '*.csv;;')[0]
+        fname = QFileDialog.getExistingDirectory(None, 'Select a folder:', 'C:\\', QFileDialog.ShowDirsOnly)
         print(fname)
-        self.plot()
+        self.fileSorting(fname)
+        #self.plot()
 
-    def btnSave(self):
+    def btnSave(self):  # Кнопка сохранить
         fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/home', '*.pdf')[0]
         print(fname)
 
-    def plot(self):
+    def fileSorting(self, directory):   # Берем в директории + /ID файлы и отправляем в выпадающий список
+        directory = directory + "/ID"
+        files = os.listdir(directory)
+
+        hystoryFiles = list(filter(lambda x: x.endswith('.csv'), files))
+        self.ui.comboBox.addItems(hystoryFiles)
+
+
+
+    def plot(self): # Строим график
         # random data
         data = [random.random() for i in range(10)]
 
@@ -62,7 +75,7 @@ application.show()
 
 sys.exit(app.exec())
 
-# **************************** Обработки графиков ***************
+# **************************** Обработка графиков ***************
 
 # def openFile(file):
 #     #Открытие CSV файла

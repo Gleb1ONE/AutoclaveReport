@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f33aafa8-9911-4fdd-904f-77b79f54753a" name="Changes" comment="Add functions for button SAVE and OPEN">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/design/report_prog.py" beforeDir="false" afterPath="$PROJECT_DIR$/design/report_prog.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report_prog.ui" beforeDir="false" afterPath="$PROJECT_DIR$/report_prog.ui" afterDir="false" />
+    <list default="true" id="f33aafa8-9911-4fdd-904f-77b79f54753a" name="Changes" comment="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;">
+      <change afterPath="$PROJECT_DIR$/datalog/ID/20221124.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datalog/ID/20221125.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datalog/ID/20221126.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datalog/ID/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datalog/Stage/20221124.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/datalog/Temp/20221124.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +107,21 @@
       <option name="project" value="LOCAL" />
       <updated>1667640778684</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;">
+      <created>1671815775554</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1671815775554</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;">
+      <created>1671815805069</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1671815805069</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -121,6 +137,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add functions for button SAVE and OPEN" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add functions for button SAVE and OPEN" />
+    <MESSAGE value="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;" />
   </component>
 </project>

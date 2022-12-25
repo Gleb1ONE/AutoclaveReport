@@ -19,6 +19,9 @@ class Window(QtWidgets.QMainWindow):
 
         self.ui.pushButton.clicked.connect(self.btnOpen)
         self.ui.pushButton_2.clicked.connect(self.btnSave)
+        self.ui.comboBox.activated.connect(self.idSorting)
+        self.ui.comboBox_2.activated.connect(self.dataParsing)
+
     # ---------------------------------------------------------------------------
         self.ui.figure = plt.figure()       # Создаем фигуру графика
         self.ui.canvas = FigureCanvas(self.ui.figure)   # Поле для графика
@@ -70,13 +73,43 @@ class Window(QtWidgets.QMainWindow):
 
         fileId.close()
 
+        self.dataParsing()
+
     def dataParsing(self):
-        fileId = self.directory + "/ID/" + self.ui.comboBox.currentText()
-        fileTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
-        fileStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
+        dirId = self.directory + "/ID/" + self.ui.comboBox.currentText()
+        dirTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
+        dirStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
 
+        fileId = open(dirId, encoding = "utf-8")
+        fileTemp = open(dirTemp, encoding="utf-8")
+        fileStage = open(dirStage, encoding="utf-8")
 
+        readerId = csv.reader(fileId)
+        readerTemp = csv.reader(fileTemp)
+        readerStage = csv.reader(fileStage)
 
+        listId = []
+        listTemp = []
+        listStage = []
+        for x in readerId:
+            listId.append(x)
+        for x in readerTemp:
+            listTemp.append(x)
+        for x in readerStage:
+            listStage.append(x)
+
+        count = 0
+        self.data = [[], [], [], []]
+        for i in range(len(listId)):
+            if listId[i][2]==self.ui.comboBox_2.currentText():
+                self.data[0].append(count)
+                count+=1
+                self.data[1].append(listTemp[i][2])
+                self.data[2].append(listId[i][1])
+                self.data[3].append(listStage[i][2])
+
+        for x in self.data:
+            print(x)
 
 
 

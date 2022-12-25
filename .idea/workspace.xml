@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f33aafa8-9911-4fdd-904f-77b79f54753a" name="Changes" comment="Add &quot;open directory&quot;, &quot;fileSorting&quot; and &quot;combpBox&quot;">
-      <change afterPath="$PROJECT_DIR$/datalog/ID/20221124.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datalog/ID/20221125.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datalog/ID/20221126.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datalog/ID/test.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datalog/Stage/20221124.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datalog/Temp/20221124.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datalog/ID/20221124.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datalog/ID/20221124.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datalog/ID/20221125.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datalog/ID/20221125.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datalog/ID/20221126.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datalog/ID/20221126.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datalog/Stage/20221124.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datalog/Stage/20221124.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/datalog/Temp/20221124.csv" beforeDir="false" afterPath="$PROJECT_DIR$/datalog/Temp/20221124.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,11 +34,11 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "last_opened_file_path": "C:/projects/GitHub/AutoclaveReport"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;C:/projects/GitHub/AutoclaveReport&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\GitHub\AutoclaveReport\design" />

@@ -9,7 +9,6 @@ from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
-import random
 #---------------------------------------------------------------------------
 
 class Window(QtWidgets.QMainWindow):
@@ -29,43 +28,74 @@ class Window(QtWidgets.QMainWindow):
         layout.addWidget(self.ui.canvas)
 
         self.ui.widget.setLayout(layout)    # добавление контейнера в интерфейс
+        self.directory = ""
+        self.data = [[],[],[],[]]   # [№], [температура], [время], [стадия]
 
 
     def btnOpen(self):  # Кнопка открыть
         #fname = QFileDialog.getOpenFileName(self, 'Открыть файл', '/home', '*.csv;;')[0]
-        fname = QFileDialog.getExistingDirectory(None, 'Select a folder:', 'C:\\', QFileDialog.ShowDirsOnly)
-        print(fname)
-        self.fileSorting(fname)
-        #self.plot()
+        self.directory = QFileDialog.getExistingDirectory(None, 'Select a folder:', 'C:\\', QFileDialog.ShowDirsOnly)
+        self.fileSorting()
 
     def btnSave(self):  # Кнопка сохранить
-        fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/home', '*.pdf')[0]
+        fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/home', '*.xlsx')[0]
         print(fname)
 
-    def fileSorting(self, directory):   # Берем в директории + /ID файлы и отправляем в выпадающий список
-        directory = directory + "/ID"
-        files = os.listdir(directory)
+    def fileSorting(self):   # Берем в директории + /ID файлы и отправляем в выпадающий список
+        directoryId = self.directory + "/ID"
+        files = os.listdir(directoryId)
 
         hystoryFiles = list(filter(lambda x: x.endswith('.csv'), files))
         self.ui.comboBox.addItems(hystoryFiles)
+        self.idSorting()
+
+    def idSorting(self):
+        directoryId = self.directory + "/ID/" + self.ui.comboBox.currentText()
+        fileId = open(directoryId, encoding="utf-8")
+
+        readerId = csv.reader(fileId)
+
+        hystoryList = []
+        count = 0
+        for x in readerId:
+            if count == 0:
+                pass
+            else:
+                if not x[2] in hystoryList:
+                    hystoryList.append(x[2])
+            count += 1
+
+        self.ui.comboBox_2.clear()
+        self.ui.comboBox_2.addItems(hystoryList)
+
+        fileId.close()
+
+    def dataParsing(self):
+        fileId = self.directory + "/ID/" + self.ui.comboBox.currentText()
+        fileTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
+        fileStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
 
 
 
-    def plot(self): # Строим график
-        # random data
-        data = [random.random() for i in range(10)]
 
-        # clearing old figure
-        self.ui.figure.clear()
 
-        # create an axis
-        ax = self.ui.figure.add_subplot(111)
 
-        # plot data
-        ax.plot(data, '*-')
 
-        # refresh canvas
-        self.ui.canvas.draw()
+    # def plot(self): # Строим график
+    #     # random data
+    #     data = [random.random() for i in range(10)]
+    #
+    #     # clearing old figure
+    #     self.ui.figure.clear()
+    #
+    #     # create an axis
+    #     ax = self.ui.figure.add_subplot(111)
+    #
+    #     # plot data
+    #     ax.plot(data, '*-')
+    #
+    #     # refresh canvas
+    #     self.ui.canvas.draw()
 
 
 
@@ -74,42 +104,3 @@ application = Window()
 application.show()
 
 sys.exit(app.exec())
-
-# **************************** Обработка графиков ***************
-
-# def openFile(file):
-#     #Открытие CSV файла
-#     doc_input = open(file)
-#     file = doc_input.read()     #чтение файла в переменную
-#     doc_input.close()
-#
-#
-#     list = file.replace(';','\n')   #Замена ';' на переносы строк
-#     list = list.splitlines()    # Разбиение list по переносу
-#
-#
-#     for x in range(len(list)):  #Разброс температуры и времени по четности
-#         if x % 2 == 0:
-#             time_graph.append(list[x])
-#         else:
-#             temperature_graph.append(list[x])
-#
-#     time_graph.pop(0)       #Удаление заголовка
-#     temperature_graph.pop(0)
-#
-#     for i in range(len(temperature_graph)): #Перевод температуры в формат с плавающей точкой
-#         temperature_graph[i] = temperature_graph[i].replace(',', '.')
-#         temperature_graph[i] = float(temperature_graph[i])
-
-# def initGraph(time, temperature):
-#     fig = plt.figure()
-#     ax = fig.add_subplot(111)
-#
-#     #ax.set_xlim([-10, 10])
-#     ax.set_ylim([10, 150])
-#     ax.set_title('График')
-#     ax.set_xlabel('Время')
-#     ax.set_ylabel('Температура')
-#
-#     ax.plot(time, temperature)
-#     plt.show()

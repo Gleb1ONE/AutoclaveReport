@@ -4,6 +4,9 @@ from design import report_prog
 import sys
 import csv
 import os
+
+from openpyxl import Workbook
+from openpyxl.chart import LineChart, Reference
 #---------------------------------------------------------------------------
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -42,7 +45,8 @@ class Window(QtWidgets.QMainWindow):
 
     def btnSave(self):  # Кнопка сохранить
         fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/home', '*.xlsx')[0]
-        print(fname)
+        # print(fname)
+        self.exportToExcel(fname)
 
     def fileSorting(self):   # Берем в директории + /ID файлы и отправляем в выпадающий список
         directoryId = self.directory + "/ID"
@@ -110,6 +114,40 @@ class Window(QtWidgets.QMainWindow):
 
         for x in self.data:
             print(x)
+
+    def exportToExcel(self, dir):
+        wb = Workbook()
+        wb.create_sheet(title="Отчет", index=0)
+        sheet = wb["Отчет"]
+
+        sheet['A1'] = "Отчет"
+        sheet['B1'] = "ID: "+self.ui.comboBox_2.currentText()
+
+        for x in range(len(self.data[0])):
+            cell = sheet.cell(row = x+24, column=1)
+            cell.value = self.data[0][x]
+            cell = sheet.cell(row=x + 24, column=2)
+            cell.value = self.data[1][x]
+            cell = sheet.cell(row=x + 24, column=3)
+            cell.value = self.data[2][x]
+            cell = sheet.cell(row=x + 24, column=4)
+            cell.value = self.data[3][x]
+
+        chart = LineChart()
+        chart.title = "Отчет"
+        dataChart = Reference(sheet,min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
+
+        chart.add_data(dataChart, titles_from_data=True)
+        sheet.add_chart(chart, 'A5')
+        wb.save(dir)
+
+
+
+
+
+
+
+
 
 
 

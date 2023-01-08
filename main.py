@@ -127,7 +127,7 @@ class Window(QtWidgets.QMainWindow):
             cell = sheet.cell(row = x+24, column=1)
             cell.value = self.data[0][x]
             cell = sheet.cell(row=x + 24, column=2)
-            cell.value = self.data[1][x]
+            cell.value = float(self.data[1][x])
             cell = sheet.cell(row=x + 24, column=3)
             cell.value = self.data[2][x]
             cell = sheet.cell(row=x + 24, column=4)
@@ -135,7 +135,7 @@ class Window(QtWidgets.QMainWindow):
 
         chart = LineChart()
         chart.title = "Отчет"
-        dataChart = Reference(sheet,min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
+        dataChart = Reference(sheet, min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
 
         chart.add_data(dataChart, titles_from_data=True)
         sheet.add_chart(chart, 'A5')

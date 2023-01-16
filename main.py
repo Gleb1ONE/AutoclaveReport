@@ -4,9 +4,13 @@ from design import report_prog
 import sys
 import csv
 import os
+import subprocess
 
+# import pandas as pd
+import openpyxl
 from openpyxl import Workbook
 from openpyxl.chart import LineChart, Reference
+
 #---------------------------------------------------------------------------
 from PyQt5.QtWidgets import QDialog, QApplication, QPushButton, QVBoxLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -49,35 +53,103 @@ class Window(QtWidgets.QMainWindow):
         self.exportToExcel(fname)
 
     def fileSorting(self):   # Берем в директории + /ID файлы и отправляем в выпадающий список
+
         directoryId = self.directory + "/ID"
         files = os.listdir(directoryId)
-
-        hystoryFiles = list(filter(lambda x: x.endswith('.csv'), files))
+        for file in files:
+            if '.dtl' in file:
+                if file.rstrip('dtl')+'xlsx' in files:
+                    pass
+                else:
+                    subprocess.Popen(('start', self.directory +"/ID/"+file), shell=True)
+            else:
+                pass
+        files = os.listdir(directoryId)
+        # for file in files:
+        #     if '.xlsx' in file:
+        #         if file.rstrip('xlsx')+'csv' in files:
+        #             pass
+        #         else:
+        #             self.csv_from_excel(self.directory +"/ID/"+file)
+        #     else:
+        #         pass
+        hystoryFiles = []
+        for file in files:
+            if ('.csv' in file)or('.xlsx' in file):
+                hystoryFiles.append(file)
+        self.ui.comboBox.clear()
         self.ui.comboBox.addItems(hystoryFiles)
         self.idSorting()
 
+    def csv_from_excel(self, file):
+
+        xlsx = openpyxl.load_workbook(file)
+        sheet = xlsx.active
+        data = sheet.rows
+        fileCSV = file.rstrip('xlsx')+'csv'
+        csv = open(fileCSV, "w+")
+
+        dataForCsv = []
+        countRow = 0
+
+        for row in data:
+            dataForCsv.append([])
+            for cell in row:
+                dataForCsv[countRow].append(str(cell.value))
+            countRow = countRow+1
+
+        for x in dataForCsv:
+            x.pop(2)
+            s = ",".join(x)
+            csv.writelines(s)
+            csv.write('\n')
+
+        ## close the csv file
+        csv.close()
+
+
+
     def idSorting(self):
         directoryId = self.directory + "/ID/" + self.ui.comboBox.currentText()
-        fileId = open(directoryId, encoding="utf-8")
-
-        readerId = csv.reader(fileId)
-
         hystoryList = []
-        count = 0
-        for x in readerId:
-            if count == 0:
-                pass
-            else:
-                if not x[2] in hystoryList:
-                    hystoryList.append(x[2])
-            count += 1
+        if '.csv' in directoryId:
+            fileId = open(directoryId, encoding="utf-8")
+
+            readerId = csv.reader(fileId, delimiter=',')
+            count = 0
+
+            for x in readerId:
+                if count == 0:
+                    pass
+                else:
+                    if not x[2] in hystoryList:
+                        hystoryList.append(x[2])
+                count += 1
+            fileId.close()
+
+        else:
+            xlsx = openpyxl.load_workbook(directoryId)
+            sheet = xlsx.active
+            data = sheet.rows
+
+            countRow = 0
+
+            for row in data:
+                if countRow == 0:
+                    print('1')
+                    pass
+                else:
+                    if not str(row[3].value) in hystoryList:
+                        hystoryList.append(str(row[3].value))
+                countRow += 1
 
         self.ui.comboBox_2.clear()
         self.ui.comboBox_2.addItems(hystoryList)
 
-        fileId.close()
 
-        self.dataParsing()
+        print("x")
+
+        # self.dataParsing()
 
     def dataParsing(self):
         dirId = self.directory + "/ID/" + self.ui.comboBox.currentText()
@@ -112,8 +184,8 @@ class Window(QtWidgets.QMainWindow):
                 self.data[2].append(listId[i][1])
                 self.data[3].append(listStage[i][2])
 
-        for x in self.data:
-            print(x)
+        # for x in self.data:
+        #     print(x)
 
     def exportToExcel(self, dir):
         wb = Workbook()

@@ -5,6 +5,7 @@ import sys
 import csv
 import os
 import subprocess
+import time
 
 # import pandas as pd
 import openpyxl
@@ -48,7 +49,7 @@ class Window(QtWidgets.QMainWindow):
         self.fileSorting()
 
     def btnSave(self):  # Кнопка сохранить
-        fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/home', '*.xlsx')[0]
+        fname = QFileDialog.getSaveFileName(self, 'Открыть файл', '/report', '*.xlsx')[0]
         # print(fname)
         self.exportToExcel(fname)
 
@@ -61,9 +62,12 @@ class Window(QtWidgets.QMainWindow):
                 if file.rstrip('dtl')+'xlsx' in files:
                     pass
                 else:
-                    subprocess.Popen(('start', self.directory +"/ID/"+file), shell=True)
+                    subprocess.Popen(('start', self.directory + "/ID/" + file), shell=True)
+                    subprocess.Popen(('start', self.directory + "/Temp/" + file), shell=True)
+                    subprocess.Popen(('start', self.directory + "/Stage/" + file), shell=True)
             else:
                 pass
+        time.sleep(1)
         files = os.listdir(directoryId)
         # for file in files:
         #     if '.xlsx' in file:
@@ -156,36 +160,72 @@ class Window(QtWidgets.QMainWindow):
         dirTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
         dirStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
 
-        fileId = open(dirId, encoding = "utf-8")
-        fileTemp = open(dirTemp, encoding="utf-8")
-        fileStage = open(dirStage, encoding="utf-8")
-
-        readerId = csv.reader(fileId)
-        readerTemp = csv.reader(fileTemp)
-        readerStage = csv.reader(fileStage)
-
-        listId = []
-        listTemp = []
-        listStage = []
-        for x in readerId:
-            listId.append(x)
-        for x in readerTemp:
-            listTemp.append(x)
-        for x in readerStage:
-            listStage.append(x)
-
-        count = 0
         self.data = [[], [], [], []]
-        for i in range(len(listId)):
-            if listId[i][2]==self.ui.comboBox_2.currentText():
-                self.data[0].append(count)
-                count+=1
-                self.data[1].append(listTemp[i][2])
-                self.data[2].append(listId[i][1])
-                self.data[3].append(listStage[i][2])
 
-        # for x in self.data:
-        #     print(x)
+        if '.csv' in self.ui.comboBox.currentText():
+            fileId = open(dirId, encoding = "utf-8")
+            fileTemp = open(dirTemp, encoding="utf-8")
+            fileStage = open(dirStage, encoding="utf-8")
+
+            readerId = csv.reader(fileId)
+            readerTemp = csv.reader(fileTemp)
+            readerStage = csv.reader(fileStage)
+
+            listId = []
+            listTemp = []
+            listStage = []
+            for x in readerId:
+                listId.append(x)
+            for x in readerTemp:
+                listTemp.append(x)
+            for x in readerStage:
+                listStage.append(x)
+
+            count = 0
+
+            for i in range(len(listId)):
+                if listId[i][2]==self.ui.comboBox_2.currentText():
+                    self.data[0].append(count)
+                    count+=1
+                    self.data[1].append(listTemp[i][2])
+                    self.data[2].append(listId[i][1])
+                    self.data[3].append(listStage[i][2])
+
+        else:
+            xlsxId = openpyxl.load_workbook(dirId)
+            xlsxTemp = openpyxl.load_workbook(dirTemp)
+            xlsxStage = openpyxl.load_workbook(dirStage)
+
+            sheetId = xlsxId.active
+            sheetTemp = xlsxTemp.active
+            sheetStage = xlsxStage.active
+
+            dataId = sheetId.rows
+            dataTemp = sheetTemp.rows
+            dataStage = sheetStage.rows
+
+            listIdXl = []
+            listTempXl = []
+            listStageXl = []
+            for x in dataId:
+                listIdXl.append(x)
+            for x in dataTemp:
+                listTempXl.append(x)
+            for x in dataStage:
+                listStageXl.append(x)
+
+            countRow = 0
+
+            for i in range(len(listIdXl)):
+                if str(listIdXl[i][3].value) == self.ui.comboBox_2.currentText():
+                    self.data[0].append(countRow)
+                    countRow += 1
+                    self.data[1].append(str(listTempXl[i][3].value))
+                    self.data[2].append(str(listIdXl[i][1].value))
+                    self.data[3].append(str(listStageXl[i][3].value))
+
+        for x in self.data:
+            print(x)
 
     def exportToExcel(self, dir):
         wb = Workbook()

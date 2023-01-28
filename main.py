@@ -55,203 +55,218 @@ class Window(QtWidgets.QMainWindow):
 
     def fileSorting(self):   # Берем в директории + /ID файлы и отправляем в выпадающий список
 
-        directoryId = self.directory + "/ID"
-        files = os.listdir(directoryId)
-        for file in files:
-            if '.dtl' in file:
-                if file.rstrip('dtl')+'xlsx' in files:
-                    pass
+        try:
+            directoryId = self.directory + "/ID"
+            files = os.listdir(directoryId)
+            for file in files:
+                if '.dtl' in file:
+                    if file.rstrip('dtl')+'xlsx' in files:
+                        pass
+                    else:
+                        subprocess.Popen(('start', self.directory + "/ID/" + file), shell=True)
+                        subprocess.Popen(('start', self.directory + "/Temp/" + file), shell=True)
+                        subprocess.Popen(('start', self.directory + "/Stage/" + file), shell=True)
                 else:
-                    subprocess.Popen(('start', self.directory + "/ID/" + file), shell=True)
-                    subprocess.Popen(('start', self.directory + "/Temp/" + file), shell=True)
-                    subprocess.Popen(('start', self.directory + "/Stage/" + file), shell=True)
-            else:
-                pass
-        time.sleep(1)
-        files = os.listdir(directoryId)
-        # for file in files:
-        #     if '.xlsx' in file:
-        #         if file.rstrip('xlsx')+'csv' in files:
-        #             pass
-        #         else:
-        #             self.csv_from_excel(self.directory +"/ID/"+file)
-        #     else:
-        #         pass
-        hystoryFiles = []
-        for file in files:
-            if ('.csv' in file)or('.xlsx' in file):
-                hystoryFiles.append(file)
-        self.ui.comboBox.clear()
-        self.ui.comboBox.addItems(hystoryFiles)
-        self.idSorting()
+                    pass
+            time.sleep(1)
+            files = os.listdir(directoryId)
+            # for file in files:
+            #     if '.xlsx' in file:
+            #         if file.rstrip('xlsx')+'csv' in files:
+            #             pass
+            #         else:
+            #             self.csv_from_excel(self.directory +"/ID/"+file)
+            #     else:
+            #         pass
+            hystoryFiles = []
+            for file in files:
+                if ('.csv' in file)or('.xlsx' in file):
+                    hystoryFiles.append(file)
+            self.ui.comboBox.clear()
+            self.ui.comboBox.addItems(hystoryFiles)
+            self.idSorting()
+        except Exception:
+            pass
 
     def csv_from_excel(self, file):
 
-        xlsx = openpyxl.load_workbook(file)
-        sheet = xlsx.active
-        data = sheet.rows
-        fileCSV = file.rstrip('xlsx')+'csv'
-        csv = open(fileCSV, "w+")
+        try:
+            xlsx = openpyxl.load_workbook(file)
+            sheet = xlsx.active
+            data = sheet.rows
+            fileCSV = file.rstrip('xlsx')+'csv'
+            csv = open(fileCSV, "w+")
 
-        dataForCsv = []
-        countRow = 0
+            dataForCsv = []
+            countRow = 0
 
-        for row in data:
-            dataForCsv.append([])
-            for cell in row:
-                dataForCsv[countRow].append(str(cell.value))
-            countRow = countRow+1
+            for row in data:
+                dataForCsv.append([])
+                for cell in row:
+                    dataForCsv[countRow].append(str(cell.value))
+                countRow = countRow+1
 
-        for x in dataForCsv:
-            x.pop(2)
-            s = ",".join(x)
-            csv.writelines(s)
-            csv.write('\n')
+            for x in dataForCsv:
+                x.pop(2)
+                s = ",".join(x)
+                csv.writelines(s)
+                csv.write('\n')
 
-        ## close the csv file
-        csv.close()
+            ## close the csv file
+            csv.close()
+        except Exception:
+            pass
 
 
 
     def idSorting(self):
-        directoryId = self.directory + "/ID/" + self.ui.comboBox.currentText()
-        hystoryList = []
-        if '.csv' in directoryId:
-            fileId = open(directoryId, encoding="utf-8")
+        try:
+            directoryId = self.directory + "/ID/" + self.ui.comboBox.currentText()
+            hystoryList = []
+            if '.csv' in directoryId:
+                fileId = open(directoryId, encoding="utf-8")
 
-            readerId = csv.reader(fileId, delimiter=',')
-            count = 0
+                readerId = csv.reader(fileId, delimiter=',')
+                count = 0
 
-            for x in readerId:
-                if count == 0:
-                    pass
-                else:
-                    if not x[2] in hystoryList:
-                        hystoryList.append(x[2])
-                count += 1
-            fileId.close()
+                for x in readerId:
+                    if count == 0:
+                        pass
+                    else:
+                        if not x[2] in hystoryList:
+                            hystoryList.append(x[2])
+                    count += 1
+                fileId.close()
 
-        else:
-            xlsx = openpyxl.load_workbook(directoryId)
-            sheet = xlsx.active
-            data = sheet.rows
+            else:
+                xlsx = openpyxl.load_workbook(directoryId)
+                sheet = xlsx.active
+                data = sheet.rows
 
-            countRow = 0
+                countRow = 0
 
-            for row in data:
-                if countRow == 0:
-                    print('1')
-                    pass
-                else:
-                    if not str(row[3].value) in hystoryList:
-                        hystoryList.append(str(row[3].value))
-                countRow += 1
+                for row in data:
+                    if countRow == 0:
+                        print('1')
+                        pass
+                    else:
+                        if not str(row[3].value) in hystoryList:
+                            hystoryList.append(str(row[3].value))
+                    countRow += 1
 
-        self.ui.comboBox_2.clear()
-        self.ui.comboBox_2.addItems(hystoryList)
+            self.ui.comboBox_2.clear()
+            self.ui.comboBox_2.addItems(hystoryList)
+        except Exception:
+            pass
 
 
-        print("x")
+        # print("x")
 
         # self.dataParsing()
 
     def dataParsing(self):
-        dirId = self.directory + "/ID/" + self.ui.comboBox.currentText()
-        dirTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
-        dirStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
+        try:
+            dirId = self.directory + "/ID/" + self.ui.comboBox.currentText()
+            dirTemp = self.directory + "/Temp/" + self.ui.comboBox.currentText()
+            dirStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
 
-        self.data = [[], [], [], []]
+            self.data = [[], [], [], []]
 
-        if '.csv' in self.ui.comboBox.currentText():
-            fileId = open(dirId, encoding = "utf-8")
-            fileTemp = open(dirTemp, encoding="utf-8")
-            fileStage = open(dirStage, encoding="utf-8")
+            if '.csv' in self.ui.comboBox.currentText():
+                fileId = open(dirId, encoding = "utf-8")
+                fileTemp = open(dirTemp, encoding="utf-8")
+                fileStage = open(dirStage, encoding="utf-8")
 
-            readerId = csv.reader(fileId)
-            readerTemp = csv.reader(fileTemp)
-            readerStage = csv.reader(fileStage)
+                readerId = csv.reader(fileId)
+                readerTemp = csv.reader(fileTemp)
+                readerStage = csv.reader(fileStage)
 
-            listId = []
-            listTemp = []
-            listStage = []
-            for x in readerId:
-                listId.append(x)
-            for x in readerTemp:
-                listTemp.append(x)
-            for x in readerStage:
-                listStage.append(x)
+                listId = []
+                listTemp = []
+                listStage = []
+                for x in readerId:
+                    listId.append(x)
+                for x in readerTemp:
+                    listTemp.append(x)
+                for x in readerStage:
+                    listStage.append(x)
 
-            count = 0
+                count = 0
 
-            for i in range(len(listId)):
-                if listId[i][2]==self.ui.comboBox_2.currentText():
-                    self.data[0].append(count)
-                    count+=1
-                    self.data[1].append(listTemp[i][2])
-                    self.data[2].append(listId[i][1])
-                    self.data[3].append(listStage[i][2])
+                for i in range(len(listId)):
+                    if listId[i][2]==self.ui.comboBox_2.currentText():
+                        self.data[0].append(count)
+                        count+=1
+                        self.data[1].append(listTemp[i][2])
+                        self.data[2].append(listId[i][1])
+                        self.data[3].append(listStage[i][2])
 
-        else:
-            xlsxId = openpyxl.load_workbook(dirId)
-            xlsxTemp = openpyxl.load_workbook(dirTemp)
-            xlsxStage = openpyxl.load_workbook(dirStage)
+            else:
+                xlsxId = openpyxl.load_workbook(dirId)
+                xlsxTemp = openpyxl.load_workbook(dirTemp)
+                xlsxStage = openpyxl.load_workbook(dirStage)
 
-            sheetId = xlsxId.active
-            sheetTemp = xlsxTemp.active
-            sheetStage = xlsxStage.active
+                sheetId = xlsxId.active
+                sheetTemp = xlsxTemp.active
+                sheetStage = xlsxStage.active
 
-            dataId = sheetId.rows
-            dataTemp = sheetTemp.rows
-            dataStage = sheetStage.rows
+                dataId = sheetId.rows
+                dataTemp = sheetTemp.rows
+                dataStage = sheetStage.rows
 
-            listIdXl = []
-            listTempXl = []
-            listStageXl = []
-            for x in dataId:
-                listIdXl.append(x)
-            for x in dataTemp:
-                listTempXl.append(x)
-            for x in dataStage:
-                listStageXl.append(x)
+                listIdXl = []
+                listTempXl = []
+                listStageXl = []
+                for x in dataId:
+                    listIdXl.append(x)
+                for x in dataTemp:
+                    listTempXl.append(x)
+                for x in dataStage:
+                    listStageXl.append(x)
 
-            countRow = 0
+                countRow = 0
 
-            for i in range(len(listIdXl)):
-                if str(listIdXl[i][3].value) == self.ui.comboBox_2.currentText():
-                    self.data[0].append(countRow)
-                    countRow += 1
-                    self.data[1].append(str(listTempXl[i][3].value))
-                    self.data[2].append(str(listIdXl[i][1].value))
-                    self.data[3].append(str(listStageXl[i][3].value))
+                for i in range(len(listIdXl)):
+                    if str(listIdXl[i][3].value) == self.ui.comboBox_2.currentText():
+                        self.data[0].append(countRow)
+                        countRow += 1
+                        self.data[1].append(str(listTempXl[i][3].value))
+                        self.data[2].append(str(listIdXl[i][1].value))
+                        self.data[3].append(str(listStageXl[i][3].value))
 
-        for x in self.data:
-            print(x)
+            for x in self.data:
+                print(x)
+        except Exception:
+            pass
 
     def exportToExcel(self, dir):
-        wb = Workbook()
-        wb.create_sheet(title="Отчет", index=0)
-        sheet = wb["Отчет"]
+        try:
+            wb = Workbook()
+            wb.create_sheet(title="Отчет", index=0)
+            sheet = wb["Отчет"]
 
-        sheet['A1'] = "Отчет"
-        sheet['B1'] = "ID: "+self.ui.comboBox_2.currentText()
+            sheet['A1'] = "Отчет"
+            sheet['B1'] = "ID: "+self.ui.comboBox_2.currentText()
 
-        for x in range(len(self.data[0])):
-            cell = sheet.cell(row = x+24, column=1)
-            cell.value = self.data[0][x]
-            cell = sheet.cell(row=x + 24, column=2)
-            cell.value = float(self.data[1][x])
-            cell = sheet.cell(row=x + 24, column=3)
-            cell.value = self.data[2][x]
-            cell = sheet.cell(row=x + 24, column=4)
-            cell.value = self.data[3][x]
+            for x in range(len(self.data[0])):
+                cell = sheet.cell(row = x+24, column=1)
+                cell.value = self.data[0][x]
+                cell = sheet.cell(row=x + 24, column=2)
+                cell.value = float(self.data[1][x])
+                cell = sheet.cell(row=x + 24, column=3)
+                cell.value = self.data[2][x]
+                cell = sheet.cell(row=x + 24, column=4)
+                cell.value = self.data[3][x]
 
-        chart = LineChart()
-        chart.title = "Отчет"
-        dataChart = Reference(sheet, min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
+            chart = LineChart()
+            chart.title = "Отчет"
+            dataChart = Reference(sheet, min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
 
-        chart.add_data(dataChart, titles_from_data=True)
-        sheet.add_chart(chart, 'A5')
-        wb.save(dir)
+            chart.add_data(dataChart, titles_from_data=True)
+            sheet.add_chart(chart, 'A5')
+            wb.save(dir)
+        except Exception:
+            pass
 
 
 

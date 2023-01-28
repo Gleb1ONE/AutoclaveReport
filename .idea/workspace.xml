@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f33aafa8-9911-4fdd-904f-77b79f54753a" name="Changes" comment="Add read xlsx">
+    <list default="true" id="f33aafa8-9911-4fdd-904f-77b79f54753a" name="Changes" comment="добавил обработку XLSX, сохраняется в отчет">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -35,15 +35,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/projects/GitHub/AutoclaveReport",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/projects/GitHub/AutoclaveReport&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\projects\GitHub\AutoclaveReport\design" />
@@ -155,7 +155,21 @@
       <option name="project" value="LOCAL" />
       <updated>1673866536365</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="добавил обработку XLSX, сохраняется в отчет">
+      <created>1673874975547</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1673874975547</updated>
+    </task>
+    <task id="LOCAL-00009" summary="добавил обработку XLSX, сохраняется в отчет">
+      <created>1673875004107</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1673875004107</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -176,6 +190,7 @@
     <MESSAGE value="Add &quot;dataParsing&quot;" />
     <MESSAGE value="Add export to excel with chart" />
     <MESSAGE value="Add read xlsx" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add read xlsx" />
+    <MESSAGE value="добавил обработку XLSX, сохраняется в отчет" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавил обработку XLSX, сохраняется в отчет" />
   </component>
 </project>

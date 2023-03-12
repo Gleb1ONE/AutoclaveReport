@@ -10,6 +10,8 @@ import time
 # import pandas as pd
 import openpyxl
 from openpyxl import Workbook
+from openpyxl.styles import Font
+from openpyxl.styles import Border, Side
 from openpyxl.chart import LineChart, Reference
 
 #---------------------------------------------------------------------------
@@ -171,6 +173,7 @@ class Window(QtWidgets.QMainWindow):
             dirStage = self.directory + "/Stage/" + self.ui.comboBox.currentText()
 
             self.data = [[], [], [], []]
+            self.d = "111"
 
             if '.csv' in self.ui.comboBox.currentText():
                 fileId = open(dirId, encoding = "utf-8")
@@ -196,6 +199,8 @@ class Window(QtWidgets.QMainWindow):
                 for i in range(len(listId)):
                     if listId[i][2]==self.ui.comboBox_2.currentText():
                         self.data[0].append(count)
+                        if count==0:
+                            self.d = listId[i][0]
                         count+=1
                         self.data[1].append(listTemp[i][2])
                         self.data[2].append(listId[i][1])
@@ -229,6 +234,8 @@ class Window(QtWidgets.QMainWindow):
                 for i in range(len(listIdXl)):
                     if str(listIdXl[i][3].value) == self.ui.comboBox_2.currentText():
                         self.data[0].append(countRow)
+                        if countRow == 0:
+                            self.d = str(listIdXl[i][0].value).split(" ")[0]
                         countRow += 1
                         self.data[1].append(str(listTempXl[i][3].value))
                         self.data[2].append(str(listIdXl[i][1].value))
@@ -249,20 +256,48 @@ class Window(QtWidgets.QMainWindow):
             sheet['A2'] = "ID: "+self.ui.comboBox_2.currentText()
             sheet['A3'] = "Время начала:"
             sheet['B3'] = self.data[2][0]
+            sheet['A4'] = "Дата:"
+            sheet['B4'] = self.d
+
+            thin = Side(border_style="thin", color="000000")
 
             sheet['A23'] = "ID"
+            cell = sheet['A23']
+            cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
             sheet['B23'] = "Температура"
+            cell = sheet['B23']
+            cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
             sheet['C23'] = "Время"
+            cell = sheet['C23']
+            cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
             sheet['D23'] = "Фаза"
+            cell = sheet['D23']
+            cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
+
+            thin = Side(border_style="thin", color="000000")
+
+            fontStyle = Font(size=8)
+
             for x in range(len(self.data[0])):
                 cell = sheet.cell(row = x+24, column=1)
                 cell.value = self.data[0][x]
+                cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
+                cell.font = fontStyle
+
                 cell = sheet.cell(row=x + 24, column=2)
                 cell.value = round(float(self.data[1][x]),1)
+                cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
+                cell.font = fontStyle
+
                 cell = sheet.cell(row=x + 24, column=3)
                 cell.value = self.data[2][x]
+                cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
+                cell.font = fontStyle
+
                 cell = sheet.cell(row=x + 24, column=4)
                 cell.value = self.data[3][x]
+                cell.border = Border(top=thin, bottom=thin, left=thin, right=thin)
+                cell.font = fontStyle
 
             chart = LineChart()
             chart.title = "Отчет"
@@ -272,7 +307,8 @@ class Window(QtWidgets.QMainWindow):
             sheet.add_chart(chart, 'A5')
             wb.save(dir)
         except Exception:
-            print("Хуйня какая то")
+            print("111")
+            pass
 
 
 

@@ -38,9 +38,9 @@ class Window(QtWidgets.QMainWindow):
         #layout.addWidget(self.ui.toolbar)
         layout.addWidget(self.ui.canvas)
 
-        self.ui.widget.setLayout(layout)    # добавление контейнера в интерфейс
-        self.directory = ""
-        self.data = [[],[],[],[]]   # [№], [температура], [время], [стадия]
+        # self.ui.widget.setLayout(layout)    # добавление контейнера в интерфейс
+        # self.directory = ""
+        # self.data = [[],[],[],[]]   # [№], [температура], [время], [стадия]
 
 
     def btnOpen(self):  # Кнопка открыть
@@ -147,7 +147,7 @@ class Window(QtWidgets.QMainWindow):
 
                 for row in data:
                     if countRow == 0:
-                        print('1')
+                        # print('1')
                         pass
                     else:
                         if not str(row[3].value) in hystoryList:
@@ -234,8 +234,8 @@ class Window(QtWidgets.QMainWindow):
                         self.data[2].append(str(listIdXl[i][1].value))
                         self.data[3].append(str(listStageXl[i][3].value))
 
-            for x in self.data:
-                print(x)
+            # for x in self.data:
+            #     print(x)
         except Exception:
             pass
 
@@ -246,13 +246,19 @@ class Window(QtWidgets.QMainWindow):
             sheet = wb["Отчет"]
 
             sheet['A1'] = "Отчет"
-            sheet['B1'] = "ID: "+self.ui.comboBox_2.currentText()
+            sheet['A2'] = "ID: "+self.ui.comboBox_2.currentText()
+            sheet['A3'] = "Время начала:"
+            sheet['B3'] = self.data[2][0]
 
+            sheet['A23'] = "ID"
+            sheet['B23'] = "Температура"
+            sheet['C23'] = "Время"
+            sheet['D23'] = "Фаза"
             for x in range(len(self.data[0])):
                 cell = sheet.cell(row = x+24, column=1)
                 cell.value = self.data[0][x]
                 cell = sheet.cell(row=x + 24, column=2)
-                cell.value = float(self.data[1][x])
+                cell.value = round(float(self.data[1][x]),1)
                 cell = sheet.cell(row=x + 24, column=3)
                 cell.value = self.data[2][x]
                 cell = sheet.cell(row=x + 24, column=4)
@@ -260,13 +266,13 @@ class Window(QtWidgets.QMainWindow):
 
             chart = LineChart()
             chart.title = "Отчет"
-            dataChart = Reference(sheet, min_col=2, min_row=24, max_col=2, max_row=len(self.data[0])+23)
+            dataChart = Reference(sheet, min_col=2, min_row=23, max_col=2, max_row=len(self.data[0])+23)
 
             chart.add_data(dataChart, titles_from_data=True)
             sheet.add_chart(chart, 'A5')
             wb.save(dir)
         except Exception:
-            pass
+            print("Хуйня какая то")
 
 
 
